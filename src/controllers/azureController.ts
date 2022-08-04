@@ -4,6 +4,7 @@ import {
   SpeechConfig,
   SpeechRecognitionEventArgs,
   SpeechRecognizer,
+  SpeechSynthesizer,
 } from "microsoft-cognitiveservices-speech-sdk";
 
 export type AzureCallbackType = (
@@ -16,6 +17,8 @@ class AzureController {
   private speechConfig: SpeechConfig | null = null;
   private audioConfig: AudioConfig | null = null;
   private speechRecognizer: SpeechRecognizer | null = null;
+  private synthesizer: SpeechSynthesizer | null = null;
+  private synthesizerAudioConfig: AudioConfig | null = null;
 
   constructor() {
     this.speechConfig = SpeechConfig.fromSubscription(
@@ -23,6 +26,7 @@ class AzureController {
       process.env.REACT_APP_AZURE_REGION || ""
     );
     this.speechConfig.speechRecognitionLanguage = "en-US";
+    this.speechConfig.speechSynthesisVoiceName = "en-US-JennyNeural";
   }
 
   public start = async (
@@ -48,6 +52,16 @@ class AzureController {
     this.speechRecognizer.stopContinuousRecognitionAsync();
     this.speechRecognizer.close();
     this.audioStream?.getAudioTracks()[0].stop();
+  };
+
+  public synthesize = async (text: string) => {
+    if (!this.speechConfig) return;
+    this.synthesizerAudioConfig = AudioConfig.fromDefaultSpeakerOutput();
+    this.synthesizer = new SpeechSynthesizer(
+      this.speechConfig,
+      this.synthesizerAudioConfig
+    );
+    this.synthesizer.speakTextAsync(text, console.log);
   };
 }
 

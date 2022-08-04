@@ -17,10 +17,7 @@ export const STT = () => {
   }, []);
 
   const recognizingCB: AzureCallbackType = useCallback((s, e) => {
-    console.log("recognizing", e);
-    if (e.result.text) {
-      setRecognizingText(e.result.text);
-    }
+    if (e.result.text) setRecognizingText(e.result.text);
   }, []);
 
   const startRecording = async () => {
