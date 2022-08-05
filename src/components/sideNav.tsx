@@ -1,21 +1,82 @@
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading, Icon, Switch, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { AppRoutesUI } from "../config/appRoute";
+import { PropsWithChildren } from "react";
+import { RiVolumeUpLine, RiMic2Line, RiUserLine } from "react-icons/ri";
+
+const SideNavItem = ({
+  children,
+  icon,
+  to,
+}: PropsWithChildren<{ icon: any; to: string }>) => {
+  return (
+    <Flex
+      as={Link}
+      to={to}
+      my={2}
+      mx={3}
+      p={5}
+      px={8}
+      bg="white"
+      shadow="md"
+      borderRadius="xl"
+      transition="all 0.3s ease"
+      fontSize={18}
+      alignItems="center"
+      _hover={{
+        shadow: "lg",
+      }}
+    >
+      <Icon as={icon} me={3} fontSize={25} />
+      <span>{children}</span>
+    </Flex>
+  );
+};
 
 export const SideNav = () => {
   return (
-    <Box>
-      <Heading size="xl" m={3}>
+    <Flex direction="column" height="100vh">
+      <Heading size="2xl" m={3} pt={5} flexShrink={1} textAlign="center">
         বচন
       </Heading>
-      <Flex direction="column">
-        <Button as={Link} to={AppRoutesUI.STT()} m={2}>
+      <Flex direction="column" flexGrow={1} p={3}>
+        <SideNavItem icon={RiVolumeUpLine} to={AppRoutesUI.STT()}>
           Speech To Text
-        </Button>
-        <Button as={Link} to={AppRoutesUI.TTS()} m={2}>
+        </SideNavItem>
+        <SideNavItem icon={RiMic2Line} to={AppRoutesUI.TTS()}>
           Text To Speech
-        </Button>
+        </SideNavItem>
+        <SideNavItem icon={RiUserLine} to={AppRoutesUI.TTS()}>
+          Admin Panel
+        </SideNavItem>
+        <Flex fontSize={18} mt={5} alignItems="center" justifyContent="center">
+          <Text>BN</Text>
+          <Switch size="lg" mx={2} />
+          <Text>EN</Text>
+        </Flex>
       </Flex>
-    </Box>
+      <Text
+        flexShrink={1}
+        textAlign="center"
+        fontSize="xs"
+        p={3}
+        color="gray.500"
+        borderTop="1px solid #0002"
+      >
+        Powered By{" "}
+        <Text as="a" textDecor="underline" href="https://bengali.ai/">
+          Bengali.AI
+        </Text>
+        <br />
+        Developed with ❤️ by{" "}
+        <Text
+          as="a"
+          textDecor="underline"
+          href="https://khanshaheb34.github.io/"
+        >
+          KhanShaheb34
+        </Text>
+      </Text>
+    </Flex>
   );
 };
