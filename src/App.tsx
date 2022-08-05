@@ -2,26 +2,27 @@ import { Heading } from "@chakra-ui/react";
 import { AppLayout } from "./components/layout";
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import { AppRoutesUI } from "./config/appRoute";
 
 const SpeechToTextPage = lazy(() => import("./pages/speechToText"));
 const TextToSpeechPage = lazy(() => import("./pages/textToSpeech"));
 
 function App() {
   return (
-    <AppLayout>
-      <Heading size="xl" mb={3}>
-        বচন
-      </Heading>
+    <BrowserRouter>
       <Suspense fallback={<div>Loading...</div>}>
-        <BrowserRouter>
+        <AppLayout>
           <Routes>
-            <Route path="/" element={<Navigate to="/stt" replace />} />
-            <Route path="/stt" element={<SpeechToTextPage />} />
-            <Route path="/tts" element={<TextToSpeechPage />} />
+            <Route
+              path={AppRoutesUI.Root}
+              element={<Navigate to="/stt" replace />}
+            />
+            <Route path={AppRoutesUI.STT()} element={<SpeechToTextPage />} />
+            <Route path={AppRoutesUI.TTS()} element={<TextToSpeechPage />} />
           </Routes>
-        </BrowserRouter>
+        </AppLayout>
       </Suspense>
-    </AppLayout>
+    </BrowserRouter>
   );
 }
 
