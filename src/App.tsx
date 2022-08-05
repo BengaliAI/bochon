@@ -1,17 +1,27 @@
-import React from "react";
-import { Box, Heading } from "@chakra-ui/react";
-import { STT } from "./features/stt";
-import { TTS } from "./features/tts";
+import { Heading } from "@chakra-ui/react";
+import { AppLayout } from "./components/layout";
+import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
+import { lazy, Suspense } from "react";
+
+const SpeechToTextPage = lazy(() => import("./pages/speechToText"));
+const TextToSpeechPage = lazy(() => import("./pages/textToSpeech"));
 
 function App() {
   return (
-    <Box>
-      <Heading size="2xl" textAlign="center" color="primary.red">
-        Hello STT-TTS
+    <AppLayout>
+      <Heading size="xl" mb={3}>
+        বচন
       </Heading>
-      <STT />
-      <TTS />
-    </Box>
+      <Suspense fallback={<div>Loading...</div>}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Navigate to="/stt" replace />} />
+            <Route path="/stt" element={<SpeechToTextPage />} />
+            <Route path="/tts" element={<TextToSpeechPage />} />
+          </Routes>
+        </BrowserRouter>
+      </Suspense>
+    </AppLayout>
   );
 }
 
