@@ -36,14 +36,14 @@ const SideNavItem = ({
 export const SideNav = () => {
   return (
     <Flex direction="column" height="100vh">
-      <Heading size="2xl" m={3} pt={5} flexShrink={1} textAlign="center">
+      <Heading size="2xl" p={3} pt={10} flexShrink={1} textAlign="center">
         বচন
       </Heading>
       <Flex direction="column" flexGrow={1} p={3}>
-        <SideNavItem icon={RiVolumeUpLine} to={AppRoutesUI.STT()}>
+        <SideNavItem icon={RiMic2Line} to={AppRoutesUI.STT()}>
           Speech To Text
         </SideNavItem>
-        <SideNavItem icon={RiMic2Line} to={AppRoutesUI.TTS()}>
+        <SideNavItem icon={RiVolumeUpLine} to={AppRoutesUI.TTS()}>
           Text To Speech
         </SideNavItem>
         <SideNavItem icon={RiUserLine} to={AppRoutesUI.TTS()}>
