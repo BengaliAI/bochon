@@ -1,5 +1,6 @@
-import { Button, Center, Heading, Stack, Textarea } from "@chakra-ui/react";
+import { Box, Button, Center, Stack } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
+import { TextAreaBox } from "../components/textareaBox";
 import azureController, {
   AzureCallbackType,
 } from "../controllers/azureController";
@@ -31,11 +32,12 @@ export const STT = () => {
   };
 
   return (
-    <Center w="100%" flexDir="column" p={5} maxW={800} mx="auto">
-      <Heading size="xl" mb={3}>
-        STT
-      </Heading>
-      <Textarea
+    <Center w="100%" flexDir="column" height="100vh" mx="auto">
+      <Box flexGrow={1} p={[5, 8, 10, 10]} pb={[0, 0, 0, 0]} width="100%">
+        <TextAreaBox />
+      </Box>
+
+      {/* <Textarea
         placeholder="Text will appear here..."
         value={
           recognizedText || recognizingText
@@ -43,10 +45,10 @@ export const STT = () => {
             : ""
         }
         readOnly
-      />
-      <Stack direction="row" spacing={4} mt={3}>
+      /> */}
+      <Stack direction="row" spacing={4} p={5} flexShrink={1}>
         <Button
-          colorScheme="green"
+          colorScheme="orange"
           variant="solid"
           size="lg"
           onClick={startRecording}

@@ -1,7 +1,7 @@
-import { Heading } from "@chakra-ui/react";
+import { STT } from "../features/stt";
 
 const SpeechToTextPage = () => {
-  return <Heading size="xl">Speech To Text</Heading>;
+  return <STT />;
 };
 
 export default SpeechToTextPage;

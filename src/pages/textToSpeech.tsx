@@ -1,7 +1,7 @@
-import { Heading } from "@chakra-ui/react";
+import { TTS } from "../features/tts";
 
 const TextToSpeech = () => {
-  return <Heading size="xl">Text to Speech</Heading>;
+  return <TTS />;
 };
 
 export default TextToSpeech;
