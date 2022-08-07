@@ -1,5 +1,7 @@
-import { Button, Center, Heading, Stack, Textarea } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
+import { TextAreaSTT } from "../components/textareaSTT";
+import { ToolBoxSTT } from "../components/toolboxSTT";
 import azureController, {
   AzureCallbackType,
 } from "../controllers/azureController";
@@ -21,50 +23,36 @@ export const STT = () => {
   }, []);
 
   const startRecording = async () => {
-    azureController.start(recognizedCB, recognizingCB);
     setIsRecording(true);
+    await azureController.start(recognizedCB, recognizingCB);
   };
 
-  const stopRecording = async () => {
+  const stopRecording = () => {
     azureController.stop();
+    setRecognizingText("");
     setIsRecording(false);
   };
 
   return (
-    <Center w="100%" flexDir="column" p={5} maxW={800} mx="auto">
-      <Heading size="xl" mb={3}>
-        STT
-      </Heading>
-      <Textarea
-        placeholder="Text will appear here..."
-        value={
-          recognizedText || recognizingText
-            ? recognizedText + " " + recognizingText
-            : ""
-        }
-        readOnly
-      />
-      <Stack direction="row" spacing={4} mt={3}>
-        <Button
-          colorScheme="green"
-          variant="solid"
-          size="lg"
-          onClick={startRecording}
-          isLoading={isRecording}
-        >
-          Start
-        </Button>
-        {isRecording && (
-          <Button
-            colorScheme="red"
-            variant="solid"
-            size="lg"
-            onClick={stopRecording}
-          >
-            Stop
-          </Button>
-        )}
-      </Stack>
+    <Center w="100%" flexDir="column" height="100%" mx="auto">
+      <Box flexGrow={1} p={[5, 8, 10, 10]} pb={[0, 0, 0, 0]} width="100%">
+        <TextAreaSTT
+          recognizedText={recognizedText}
+          recognizingText={recognizingText}
+        />
+      </Box>
+      <Box p={5}>
+        <ToolBoxSTT
+          isRecording={isRecording}
+          text={(recognizedText && recognizedText + " ") + recognizingText}
+          startRecording={startRecording}
+          stopRecording={stopRecording}
+          clearText={() => {
+            setRecognizedText("");
+            setRecognizingText("");
+          }}
+        />
+      </Box>
     </Center>
   );
 };
