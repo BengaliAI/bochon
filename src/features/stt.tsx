@@ -34,7 +34,7 @@ export const STT = () => {
   };
 
   return (
-    <Center w="100%" flexDir="column" height="100vh" mx="auto">
+    <Center w="100%" flexDir="column" height="100%" mx="auto">
       <Box flexGrow={1} p={[5, 8, 10, 10]} pb={[0, 0, 0, 0]} width="100%">
         <TextAreaSTT
           recognizedText={recognizedText}

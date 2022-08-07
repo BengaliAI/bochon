@@ -35,7 +35,7 @@ const SideNavItem = ({
 
 export const SideNav = () => {
   return (
-    <Flex direction="column" height="100vh">
+    <Flex direction="column" height="100%">
       <Heading size="2xl" p={3} pt={10} flexShrink={1} textAlign="center">
         বচন
       </Heading>
