@@ -1,6 +1,6 @@
 import { Box, Button, Center, Stack } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
-import { TextAreaBox } from "../components/textareaBox";
+import { TextAreaSTT } from "../components/textareaSTT";
 import azureController, {
   AzureCallbackType,
 } from "../controllers/azureController";
@@ -28,24 +28,18 @@ export const STT = () => {
 
   const stopRecording = async () => {
     azureController.stop();
+    setRecognizingText("");
     setIsRecording(false);
   };
 
   return (
     <Center w="100%" flexDir="column" height="100vh" mx="auto">
       <Box flexGrow={1} p={[5, 8, 10, 10]} pb={[0, 0, 0, 0]} width="100%">
-        <TextAreaBox />
+        <TextAreaSTT
+          recognizedText={recognizedText}
+          recognizingText={recognizingText}
+        />
       </Box>
-
-      {/* <Textarea
-        placeholder="Text will appear here..."
-        value={
-          recognizedText || recognizingText
-            ? recognizedText + " " + recognizingText
-            : ""
-        }
-        readOnly
-      /> */}
       <Stack direction="row" spacing={4} p={5} flexShrink={1}>
         <Button
           colorScheme="orange"
