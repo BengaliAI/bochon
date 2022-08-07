@@ -21,13 +21,13 @@ const SideNavItem = ({
       shadow="md"
       borderRadius="xl"
       transition="all 0.3s ease"
-      fontSize={18}
+      fontSize="lg"
       alignItems="center"
       _hover={{
         shadow: "lg",
       }}
     >
-      <Icon as={icon} me={3} fontSize={25} />
+      <Icon as={icon} me={3} fontSize="2xl" />
       <span>{children}</span>
     </Flex>
   );
@@ -49,7 +49,7 @@ export const SideNav = () => {
         <SideNavItem icon={RiUserLine} to={AppRoutesUI.TTS()}>
           Admin Panel
         </SideNavItem>
-        <Flex fontSize={18} mt={5} alignItems="center" justifyContent="center">
+        <Flex fontSize="lg" mt={5} alignItems="center" justifyContent="center">
           <Text>BN</Text>
           <Switch size="lg" mx={2} />
           <Text>EN</Text>

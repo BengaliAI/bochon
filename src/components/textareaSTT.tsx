@@ -22,22 +22,27 @@ export const TextAreaSTT = ({
         py={3}
         px={5}
         justifyContent="space-between"
+        direction={["column", "column", "row"]}
         alignItems="center"
         borderBottom="1px solid #ddd"
         flexShrink={1}
       >
-        <Flex fontSize={20} alignItems="center">
-          <Icon as={RiMic2Line} me={3} fontSize={25} />
+        <Flex fontSize="xl" alignItems="center">
+          <Icon as={RiMic2Line} me={3} fontSize="2xl" />
           <span>Speech To Text</span>
         </Flex>
-        <Select placeholder="Select Model" width="50%">
+        <Select
+          placeholder="Select Model"
+          width={["100%", "100%", "50%"]}
+          mt={[5, 5, 0]}
+        >
           <option value="azure">Microsoft Azure</option>
           <option value="gcp">Google Cloud</option>
           <option value="aws">Amazon AWS</option>
         </Select>
       </Flex>
       <Box
-        fontSize={18}
+        fontSize="lg"
         bg="transparent"
         border="none"
         height="100%"
