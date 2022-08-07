@@ -1,6 +1,7 @@
-import { Box, Button, Center, Stack } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { TextAreaSTT } from "../components/textareaSTT";
+import { ToolBoxSTT } from "../components/toolboxSTT";
 import azureController, {
   AzureCallbackType,
 } from "../controllers/azureController";
@@ -22,11 +23,11 @@ export const STT = () => {
   }, []);
 
   const startRecording = async () => {
-    azureController.start(recognizedCB, recognizingCB);
     setIsRecording(true);
+    await azureController.start(recognizedCB, recognizingCB);
   };
 
-  const stopRecording = async () => {
+  const stopRecording = () => {
     azureController.stop();
     setRecognizingText("");
     setIsRecording(false);
@@ -40,27 +41,18 @@ export const STT = () => {
           recognizingText={recognizingText}
         />
       </Box>
-      <Stack direction="row" spacing={4} p={5} flexShrink={1}>
-        <Button
-          colorScheme="orange"
-          variant="solid"
-          size="lg"
-          onClick={startRecording}
-          isLoading={isRecording}
-        >
-          Start
-        </Button>
-        {isRecording && (
-          <Button
-            colorScheme="red"
-            variant="solid"
-            size="lg"
-            onClick={stopRecording}
-          >
-            Stop
-          </Button>
-        )}
-      </Stack>
+      <Box p={5}>
+        <ToolBoxSTT
+          isRecording={isRecording}
+          text={(recognizedText && recognizedText + " ") + recognizingText}
+          startRecording={startRecording}
+          stopRecording={stopRecording}
+          clearText={() => {
+            setRecognizedText("");
+            setRecognizingText("");
+          }}
+        />
+      </Box>
     </Center>
   );
 };
