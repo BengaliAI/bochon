@@ -42,7 +42,9 @@ export const TextAreaContainer = ({
           defaultValue="azure"
         >
           {models.map((model) => (
-            <option value={model.value}>{model.name}</option>
+            <option key={model.value} value={model.value}>
+              {model.name}
+            </option>
           ))}
         </Select>
       </Flex>

@@ -39,6 +39,7 @@ export const STT = () => {
         <TextAreaSTT
           recognizedText={recognizedText}
           recognizingText={recognizingText}
+          isRecording={isRecording}
         />
       </Box>
       <Box p={5}>
