@@ -54,14 +54,14 @@ class AzureController {
     this.audioStream?.getAudioTracks()[0].stop();
   };
 
-  public synthesize = async (text: string) => {
+  public synthesize = (text: string, callback: () => void) => {
     if (!this.speechConfig) return;
     this.synthesizerAudioConfig = AudioConfig.fromDefaultSpeakerOutput();
     this.synthesizer = new SpeechSynthesizer(
       this.speechConfig,
       this.synthesizerAudioConfig
     );
-    this.synthesizer.speakTextAsync(text, console.log);
+    this.synthesizer.speakTextAsync(text, callback);
   };
 }
 

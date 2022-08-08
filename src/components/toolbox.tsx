@@ -1,4 +1,4 @@
-import { Center, CenterProps, Flex, Icon } from "@chakra-ui/react";
+import { Center, CenterProps, Flex, Icon, Spinner } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 import { IconType } from "react-icons";
 
@@ -32,12 +32,21 @@ export const ToolBoxContainer = ({ children }: PropsWithChildren) => {
   );
 };
 
-type ToolBoxItemProps = CenterProps & { icon: IconType; title: string };
+type ToolBoxItemProps = CenterProps & {
+  icon: IconType;
+  title: string;
+  isLoading?: boolean;
+};
 
-export const ToolBoxItem = ({ icon, title, ...rest }: ToolBoxItemProps) => {
+export const ToolBoxItem = ({
+  icon,
+  title,
+  isLoading,
+  ...rest
+}: ToolBoxItemProps) => {
   return (
     <Center title={title} {...rest}>
-      <Icon as={icon} />
+      {isLoading ? <Spinner size="sm" /> : <Icon as={icon} />}
     </Center>
   );
 };

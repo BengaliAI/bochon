@@ -1,38 +1,31 @@
-import { Button, Center, Heading, Stack, Textarea } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import { useState } from "react";
+import { TextAreaTTS } from "../components/textAreaTTS";
+import { ToolBoxTTS } from "../components/toolboxTTS";
 import azureController from "../controllers/azureController";
 
 export const TTS = () => {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const synthesize = async () => {
+  const synthesize = () => {
     setIsLoading(true);
-    await azureController.synthesize(text);
-    setIsLoading(false);
+    azureController.synthesize(text, () => setIsLoading(false));
   };
 
   return (
-    <Center w="100%" flexDir="column" p={5} maxW={800} mx="auto">
-      <Heading size="xl" mb={3}>
-        TTS
-      </Heading>
-      <Textarea
-        placeholder="Write desired text here..."
-        value={text}
-        onChange={(e: any) => setText(e.target.value)}
-      />
-      <Stack direction="row" spacing={4} mt={3}>
-        <Button
-          colorScheme="green"
-          variant="solid"
-          size="lg"
-          onClick={synthesize}
+    <Center w="100%" flexDir="column" height="100%" mx="auto">
+      <Box flexGrow={1} p={[5, 8, 10, 10]} pb={[0, 0, 0, 0]} width="100%">
+        <TextAreaTTS text={text} setText={setText} />
+      </Box>
+      <Box p={5}>
+        <ToolBoxTTS
+          synthesize={synthesize}
+          text={text}
           isLoading={isLoading}
-        >
-          Synthesize
-        </Button>
-      </Stack>
+          clearText={() => setText("")}
+        />
+      </Box>
     </Center>
   );
 };
