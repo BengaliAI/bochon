@@ -10,6 +10,7 @@ export const STT = () => {
   const [recognizedText, setRecognizedText] = useState("");
   const [recognizingText, setRecognizingText] = useState("");
   const [isRecording, setIsRecording] = useState(false);
+  const [fromFileLoading, setFromFileLoading] = useState(false);
 
   const recognizedCB: AzureCallbackType = useCallback((s, e) => {
     if (e.result.text) {
@@ -33,6 +34,19 @@ export const STT = () => {
     setIsRecording(false);
   };
 
+  const fromAudioFile = useCallback((audioFile: File) => {
+    if (!audioFile) return;
+    setFromFileLoading(true);
+    azureController.fromAudioFile(
+      audioFile,
+      (text) => {
+        setRecognizedText(text);
+        setFromFileLoading(false);
+      },
+      () => setFromFileLoading(false)
+    );
+  }, []);
+
   return (
     <Center w="100%" flexDir="column" height="100%" mx="auto">
       <Box flexGrow={1} p={[5, 8, 10, 10]} pb={[0, 0, 0, 0]} width="100%">
@@ -52,6 +66,8 @@ export const STT = () => {
             setRecognizedText("");
             setRecognizingText("");
           }}
+          fromAudioFile={fromAudioFile}
+          fromFileLoading={fromFileLoading}
         />
       </Box>
     </Center>
