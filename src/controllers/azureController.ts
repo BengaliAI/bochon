@@ -14,11 +14,11 @@ export type AzureCallbackType = (
 
 class AzureController {
   private audioStream: MediaStream | null = null;
+  private audioBlob: Blob | null = null;
   private speechConfig: SpeechConfig | null = null;
   private audioConfig: AudioConfig | null = null;
   private speechRecognizer: SpeechRecognizer | null = null;
   private synthesizer: SpeechSynthesizer | null = null;
-  private synthesizerAudioConfig: AudioConfig | null = null;
 
   constructor() {
     this.speechConfig = SpeechConfig.fromSubscription(
@@ -54,14 +54,40 @@ class AzureController {
     this.audioStream?.getAudioTracks()[0].stop();
   };
 
-  public synthesize = async (text: string) => {
+  public synthesize = (text: string, callback: () => void) => {
     if (!this.speechConfig) return;
-    this.synthesizerAudioConfig = AudioConfig.fromDefaultSpeakerOutput();
-    this.synthesizer = new SpeechSynthesizer(
-      this.speechConfig,
-      this.synthesizerAudioConfig
+    this.synthesizer = new SpeechSynthesizer(this.speechConfig);
+    this.synthesizer.speakTextAsync(
+      text,
+      (result) => {
+        const { audioData } = result;
+        this.synthesizer?.close();
+        this.audioBlob = new Blob([audioData], { type: "audio/wav" });
+        console.log(this.audioBlob);
+        callback();
+      },
+      () => {
+        this.synthesizer?.close();
+        callback();
+      }
     );
-    this.synthesizer.speakTextAsync(text, console.log);
+  };
+
+  public fromAudioFile = (
+    audio: File,
+    onSuccess: (text: string) => void,
+    onError: (error?: string) => void
+  ) => {
+    if (!this.speechConfig) return;
+    this.audioConfig = AudioConfig.fromWavFileInput(audio);
+    this.speechRecognizer = new SpeechRecognizer(
+      this.speechConfig,
+      this.audioConfig
+    );
+    this.speechRecognizer.recognizeOnceAsync((result) => {
+      const { text } = result;
+      onSuccess(text);
+    }, onError);
   };
 }
 

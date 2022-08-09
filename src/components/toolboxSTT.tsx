@@ -1,4 +1,4 @@
-import { Center, Flex, Icon, keyframes, useToast } from "@chakra-ui/react";
+import { Box, keyframes, useToast } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import {
   RiUploadLine,
@@ -8,6 +8,8 @@ import {
   RiMicLine,
   RiQuestionMark,
 } from "react-icons/ri";
+import { ToolBoxContainer, ToolBoxItem } from "./toolbox";
+import { useRef } from "react";
 
 type ToolBoxSTTProps = {
   isRecording: boolean;
@@ -15,6 +17,8 @@ type ToolBoxSTTProps = {
   startRecording: () => Promise<void>;
   stopRecording: () => void;
   clearText: () => void;
+  fromAudioFile: (audioFile: File) => void;
+  fromFileLoading: boolean;
 };
 
 const animationKeyFrame = keyframes`
@@ -31,13 +35,16 @@ export const ToolBoxSTT = ({
   startRecording,
   stopRecording,
   clearText,
+  fromAudioFile,
+  fromFileLoading,
 }: ToolBoxSTTProps) => {
+  const toast = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleRecordClick = async () => {
     if (isRecording) stopRecording();
     else await startRecording();
   };
-
-  const toast = useToast();
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(text);
@@ -52,55 +59,51 @@ export const ToolBoxSTT = ({
   };
 
   return (
-    <Flex
-      borderRadius="xl"
-      fontSize={["md", "lg", "xl"]}
-      overflow="hidden"
-      shadow="sm"
-      sx={{
-        "&>div": {
-          py: [3, 3, 5],
-          px: [5, 5, 10],
-          borderRight: "1px solid #ddd",
-          cursor: "pointer",
-          transition: "background 0.3s ease",
-          _hover: { background: "#fff8" },
-        },
-        "&>div:not(.record-button)": {
-          background: "white",
-          _hover: { background: "#fff8" },
-        },
-        "&>div:last-child": {
-          border: "none",
-        },
-      }}
-    >
-      <Center
-        as={motion.div}
-        animation={isRecording ? animation : ""}
-        background={isRecording ? "red.300 !important" : "white"}
-        className="record-button"
-        title={isRecording ? "Stop Recording" : "Start Recording"}
-        onClick={handleRecordClick}
-      >
-        <Icon as={isRecording ? RiMicOffLine : RiMicLine} />
-      </Center>
-      <Center title="Upload Audio">
-        <Icon as={RiUploadLine} />
-      </Center>
-      {text && (
-        <Center onClick={copyToClipboard} title="Copy to Clipboard">
-          <Icon as={RiFileCopyLine} />
-        </Center>
-      )}
-      <Center title="Help">
-        <Icon as={RiQuestionMark} />
-      </Center>
-      {text && (
-        <Center onClick={clearText} title="Clear">
-          <Icon as={RiCloseLine} />
-        </Center>
-      )}
-    </Flex>
+    <>
+      <ToolBoxContainer>
+        <ToolBoxItem
+          as={motion.div}
+          animation={isRecording ? animation : ""}
+          background={isRecording ? "red.300 !important" : "white"}
+          className="record-button"
+          title={isRecording ? "Stop Recording" : "Start Recording"}
+          onClick={handleRecordClick}
+          icon={isRecording ? RiMicOffLine : RiMicLine}
+        />
+        {!isRecording && (
+          <ToolBoxItem
+            title="Upload Audio"
+            icon={RiUploadLine}
+            onClick={() => {
+              !fromFileLoading && fileInputRef.current?.click();
+            }}
+            isLoading={fromFileLoading}
+          />
+        )}
+        {text && (
+          <ToolBoxItem
+            onClick={copyToClipboard}
+            title="Copy to Clipboard"
+            icon={RiFileCopyLine}
+          />
+        )}
+        <ToolBoxItem title="Help" icon={RiQuestionMark} />
+        {text && (
+          <ToolBoxItem onClick={clearText} title="Clear" icon={RiCloseLine} />
+        )}
+      </ToolBoxContainer>
+      <Box
+        as="input"
+        type="file"
+        display="none"
+        visibility="hidden"
+        ref={fileInputRef}
+        accept="audio/wav"
+        multiple={false}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          e.target.files?.[0] && fromAudioFile(e.target.files[0]);
+        }}
+      />
+    </>
   );
 };
