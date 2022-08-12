@@ -1,5 +1,6 @@
 import hark from "hark";
 import { RecordRTCPromisesHandler } from "recordrtc";
+import connectionController from "./connectionController";
 
 class GeneralController {
   private audioStream: MediaStream | null = null;
@@ -19,14 +20,18 @@ class GeneralController {
 
     this.speechEvents = hark(this.audioStream, {});
 
-    this.speechEvents.on("speaking", async () => {
-      await this.recorder?.startRecording();
+    this.speechEvents.on("speaking", () => {
       console.log("Speaking");
+      this.recorder?.startRecording();
     });
 
     this.speechEvents.on("stopped_speaking", async () => {
+      console.log("Stopped speaking");
       await this.recorder?.stopRecording();
-      console.log("Stopped Speaking", await this.recorder?.getBlob());
+      const blob = await this.recorder?.getBlob();
+      console.log(blob);
+      connectionController.sendMessage("Data sent");
+      connectionController.sendData(blob);
       await this.recorder?.reset();
     });
   };
