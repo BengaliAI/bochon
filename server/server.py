@@ -27,7 +27,7 @@ async def print_message(sid, message):
         After running the model send back the response value to the client
         '''
         response = "Converted text from audio"
-        await sio.emit("message", response)
+        await sio.emit("message", response, to=sid)
 
 if __name__ == '__main__':
     web.run_app(app)
