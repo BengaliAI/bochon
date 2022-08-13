@@ -1,0 +1,9 @@
+{
+  "common": {
+    "title": "Bochon",
+    "speechToText": "Speech To Text",
+    "textToSpeech": "Text To Speech",
+    "adminPanel": "Admin Panel",
+    "loading": "Loading..."
+  }
+}

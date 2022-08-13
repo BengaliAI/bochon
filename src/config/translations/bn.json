@@ -1,0 +1,9 @@
+{
+  "common": {
+    "title": "বচন",
+    "speechToText": "কথা থেকে লেখা",
+    "textToSpeech": "লেখা থেকে কথা",
+    "adminPanel": "অ্যাডমিন প্যানেল",
+    "loading": "অপেক্ষা করুন..."
+  }
+}
