@@ -10,13 +10,14 @@ const gradients = [
 ];
 
 export const AppLayout = ({ children }: PropsWithChildren) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <Flex
       direction={["column", "column", "row"]}
       bgGradient={[gradients[0], gradients[0], gradients[1], gradients[1]]}
       height="100vh"
+      className={i18n.language === "bn" ? "bn-font" : "en-font"}
     >
       <Box
         width="100%"
