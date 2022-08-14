@@ -2,6 +2,7 @@ import { Box, Flex, Heading } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 import { NavDrawer } from "./navDrawer";
 import { SideNav } from "./sideNav";
+import { useTranslation } from "react-i18next";
 
 const gradients = [
   "radial-gradient( circle 800px at 8.3% 75.7%,  rgba(209,247,241,0.7) 0%, rgba(249,213,213,0.7) 81% );",
@@ -9,6 +10,8 @@ const gradients = [
 ];
 
 export const AppLayout = ({ children }: PropsWithChildren) => {
+  const { t } = useTranslation();
+
   return (
     <Flex
       direction={["column", "column", "row"]}
@@ -26,7 +29,7 @@ export const AppLayout = ({ children }: PropsWithChildren) => {
         px={5}
         shadow="sm"
       >
-        <Heading>বচন</Heading>
+        <Heading>{t("title")}</Heading>
         <NavDrawer />
       </Box>
       <Box
