@@ -1,5 +1,6 @@
 import { ToolBoxContainer, ToolBoxItem } from "./toolbox";
 import { RiQuestionMark, RiVolumeUpLine, RiCloseLine } from "react-icons/ri";
+import { useTranslation } from "react-i18next";
 
 type ToolBoxTTSProps = {
   synthesize: () => void;
@@ -14,16 +15,18 @@ export const ToolBoxTTS = ({
   clearText,
   text,
 }: ToolBoxTTSProps) => {
+  const { t } = useTranslation();
+
   return (
     <ToolBoxContainer>
       <ToolBoxItem
-        title="Synthesize"
+        title={t("synthesize")}
         icon={RiVolumeUpLine}
         onClick={synthesize}
         isLoading={isLoading}
       />
-      <ToolBoxItem title="Help" icon={RiQuestionMark} />
-      <ToolBoxItem title="Clear Text" icon={RiCloseLine} onClick={clearText} />
+      <ToolBoxItem title={t("help")} icon={RiQuestionMark} />
+      <ToolBoxItem title={t("clear")} icon={RiCloseLine} onClick={clearText} />
     </ToolBoxContainer>
   );
 };
