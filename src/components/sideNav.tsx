@@ -2,7 +2,7 @@ import { Flex, Heading, Icon, Switch, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { AppRoutesUI } from "../config/appRoute";
 import { PropsWithChildren } from "react";
-import { RiVolumeUpLine, RiMic2Line, RiUserLine } from "react-icons/ri";
+import { RiVolumeUpLine, RiMic2Line, RiFileUploadLine } from "react-icons/ri";
 import { useTranslation } from "react-i18next";
 
 const SideNavItem = ({
@@ -52,8 +52,8 @@ export const SideNav = () => {
         <SideNavItem icon={RiVolumeUpLine} to={AppRoutesUI.TTS()}>
           {t("textToSpeech")}
         </SideNavItem>
-        <SideNavItem icon={RiUserLine} to={AppRoutesUI.TTS()}>
-          {t("adminPanel")}
+        <SideNavItem icon={RiFileUploadLine} to={AppRoutesUI.TTS()}>
+          {t("uploadModel")}
         </SideNavItem>
         <Flex fontSize="lg" mt={5} alignItems="center" justifyContent="center">
           <Text>বাংলা</Text>

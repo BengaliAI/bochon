@@ -3,7 +3,7 @@
     "title": "বচন",
     "speechToText": "কথা থেকে লেখা",
     "textToSpeech": "লেখা থেকে কথা",
-    "adminPanel": "অ্যাডমিন প্যানেল",
+    "uploadModel": "মডেল আপলোড",
     "loading": "অপেক্ষা করুন...",
     "selectModel": "মডেল বাছাই করুন",
     "listening": "রেকর্ড হচ্ছে...",

@@ -3,7 +3,7 @@
     "title": "Bochon",
     "speechToText": "Speech To Text",
     "textToSpeech": "Text To Speech",
-    "adminPanel": "Admin Panel",
+    "uploadModel": "Upload Model",
     "loading": "Loading...",
     "selectModel": "Select Model",
     "listening": "Listening...",
@@ -15,7 +15,7 @@
     "clear": "Clear",
     "uploadAudio": "Upload Audio",
     "synthesize": "Synthesize",
-    "help": "help",
+    "help": "Help",
     "recordHelp": "Click <1/> to start live transcribing",
     "uploadHelp": "Click <1/> to upload audio file"
   }
