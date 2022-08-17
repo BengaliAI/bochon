@@ -52,7 +52,7 @@ export const SideNav = () => {
         <SideNavItem icon={RiVolumeUpLine} to={AppRoutesUI.TTS()}>
           {t("textToSpeech")}
         </SideNavItem>
-        <SideNavItem icon={RiFileUploadLine} to={AppRoutesUI.TTS()}>
+        <SideNavItem icon={RiFileUploadLine} to={AppRoutesUI.upload()}>
           {t("uploadModel")}
         </SideNavItem>
         <Flex fontSize="lg" mt={5} alignItems="center" justifyContent="center">
