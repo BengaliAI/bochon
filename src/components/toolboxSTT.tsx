@@ -10,6 +10,7 @@ import {
 } from "react-icons/ri";
 import { ToolBoxContainer, ToolBoxItem } from "./toolbox";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 type ToolBoxSTTProps = {
   isRecording: boolean;
@@ -40,6 +41,7 @@ export const ToolBoxSTT = ({
 }: ToolBoxSTTProps) => {
   const toast = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   const handleRecordClick = async () => {
     if (isRecording) stopRecording();
@@ -49,7 +51,7 @@ export const ToolBoxSTT = ({
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(text);
     toast({
-      title: "Text copied to clipboard",
+      title: t("textCopied"),
       duration: 5000,
       isClosable: true,
       position: "bottom-right",
@@ -66,13 +68,13 @@ export const ToolBoxSTT = ({
           animation={isRecording ? animation : ""}
           background={isRecording ? "red.300 !important" : "white"}
           className="record-button"
-          title={isRecording ? "Stop Recording" : "Start Recording"}
+          title={isRecording ? t("stopRecording") : t("startRecording")}
           onClick={handleRecordClick}
           icon={isRecording ? RiMicOffLine : RiMicLine}
         />
         {!isRecording && (
           <ToolBoxItem
-            title="Upload Audio"
+            title={t("uploadAudio")}
             icon={RiUploadLine}
             onClick={() => {
               !fromFileLoading && fileInputRef.current?.click();
@@ -83,13 +85,17 @@ export const ToolBoxSTT = ({
         {text && (
           <ToolBoxItem
             onClick={copyToClipboard}
-            title="Copy to Clipboard"
+            title={t("copyToClipboard")}
             icon={RiFileCopyLine}
           />
         )}
-        <ToolBoxItem title="Help" icon={RiQuestionMark} />
+        <ToolBoxItem title={t("help")} icon={RiQuestionMark} />
         {text && (
-          <ToolBoxItem onClick={clearText} title="Clear" icon={RiCloseLine} />
+          <ToolBoxItem
+            onClick={clearText}
+            title={t("clear")}
+            icon={RiCloseLine}
+          />
         )}
       </ToolBoxContainer>
       <Box

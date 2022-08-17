@@ -2,6 +2,7 @@ import { Textarea } from "@chakra-ui/react";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { RiVolumeUpLine } from "react-icons/ri";
 import { TextAreaContainer } from "./textarea";
+import { useTranslation } from "react-i18next";
 
 type TextAreaTTSProps = {
   text: string;
@@ -11,10 +12,12 @@ type TextAreaTTSProps = {
 const models = [{ name: "Microsoft Azure", value: "azure" }];
 
 export const TextAreaTTS = ({ text, setText }: TextAreaTTSProps) => {
+  const { t } = useTranslation();
+
   return (
     <TextAreaContainer
       icon={RiVolumeUpLine}
-      title="Text To Speech"
+      title={t("textToSpeech")}
       models={models}
     >
       <Textarea
@@ -31,7 +34,7 @@ export const TextAreaTTS = ({ text, setText }: TextAreaTTSProps) => {
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
           setText(e.target.value)
         }
-        placeholder="Type your desired text here..."
+        placeholder={t("typePrompt")}
         sx={{
           "&:focus-visible": {
             boxShadow: "none",

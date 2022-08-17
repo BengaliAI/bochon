@@ -1,0 +1,22 @@
+{
+  "common": {
+    "title": "Bochon",
+    "speechToText": "Speech To Text",
+    "textToSpeech": "Text To Speech",
+    "uploadModel": "Upload Model",
+    "loading": "Loading...",
+    "selectModel": "Select Model",
+    "listening": "Listening...",
+    "typePrompt": "Type your desired text here...",
+    "textCopied": "Text copied to clipboard",
+    "startRecording": "Start Recording",
+    "stopRecording": "Stop Recording",
+    "copyToClipboard": "Copy To Clipboard",
+    "clear": "Clear",
+    "uploadAudio": "Upload Audio",
+    "synthesize": "Synthesize",
+    "help": "Help",
+    "recordHelp": "Click <1/> to start live transcribing",
+    "uploadHelp": "Click <1/> to upload audio file"
+  }
+}
