@@ -5,6 +5,7 @@ import { ToolBoxSTT } from "../components/toolboxSTT";
 import azureController, {
   AzureCallbackType,
 } from "../controllers/azureController";
+import generalController from "../controllers/generalController";
 
 export const STT = () => {
   const [recognizedText, setRecognizedText] = useState("");
@@ -25,11 +26,13 @@ export const STT = () => {
 
   const startRecording = async () => {
     setIsRecording(true);
-    await azureController.start(recognizedCB, recognizingCB);
+    // await azureController.start(recognizedCB, recognizingCB);
+    await generalController.start();
   };
 
   const stopRecording = () => {
-    azureController.stop();
+    // azureController.stop();
+    generalController.stop();
     setRecognizingText("");
     setIsRecording(false);
   };
