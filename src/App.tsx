@@ -14,8 +14,8 @@ function App() {
   const { t } = useTranslation();
   return (
     <BrowserRouter>
-      <Suspense fallback={<div>{t("loading")}</div>}>
-        <AppLayout>
+      <AppLayout>
+        <Suspense fallback={<div>{t("loading")}</div>}>
           <Routes>
             <Route
               path={AppRoutesUI.Root}
@@ -25,8 +25,8 @@ function App() {
             <Route path={AppRoutesUI.TTS()} element={<TextToSpeechPage />} />
             <Route path={AppRoutesUI.upload()} element={<ModelUploadPage />} />
           </Routes>
-        </AppLayout>
-      </Suspense>
+        </Suspense>
+      </AppLayout>
     </BrowserRouter>
   );
 }
