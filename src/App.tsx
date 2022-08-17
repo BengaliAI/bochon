@@ -8,6 +8,7 @@ import "./config/i18n";
 
 const SpeechToTextPage = lazy(() => import("./pages/speechToText"));
 const TextToSpeechPage = lazy(() => import("./pages/textToSpeech"));
+const ModelUploadPage = lazy(() => import("./pages/modelUpload"));
 
 function App() {
   const { t } = useTranslation();
@@ -22,6 +23,7 @@ function App() {
             />
             <Route path={AppRoutesUI.STT()} element={<SpeechToTextPage />} />
             <Route path={AppRoutesUI.TTS()} element={<TextToSpeechPage />} />
+            <Route path={AppRoutesUI.upload()} element={<ModelUploadPage />} />
           </Routes>
         </AppLayout>
       </Suspense>
