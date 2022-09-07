@@ -1,0 +1,23 @@
+{
+  "common": {
+    "title": "বচন",
+    "speechToText": "কথা থেকে লেখা",
+    "textToSpeech": "লেখা থেকে কথা",
+    "uploadModel": "মডেল আপলোড",
+    "loading": "অপেক্ষা করুন...",
+    "selectModel": "মডেল বাছাই করুন",
+    "listening": "রেকর্ড হচ্ছে...",
+    "typePrompt": "এখানে লিখুন...",
+    "textCopied": "লেখা কপি হয়েছে",
+    "startRecording": "রেকর্ড শুরু করুন",
+    "stopRecording": "রেকর্ড বন্ধ করুন",
+    "copyToClipboard": "কপি করুন",
+    "clear": "মুছুন",
+    "uploadAudio": "অডিও আপলোড করুন",
+    "synthesize": "শুনুন",
+    "help": "সাহায্য",
+    "recordHelp": "রেকর্ডিং শুরু করার জন্য <1/> ক্লিক করুন",
+    "uploadHelp": "অডিও ফাইল আপলোড করার জন্য <1/> ক্লিক করুন",
+    "uploadText": "আপনার মডেলেরে বিস্তারিত JSON ফাইল এখানে ড্র্যাগ করুন, অথবা ক্লিক করে ফাইল সিলেক্ট করুন"
+  }
+}

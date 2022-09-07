@@ -2,7 +2,8 @@ import { Flex, Heading, Icon, Switch, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { AppRoutesUI } from "../config/appRoute";
 import { PropsWithChildren } from "react";
-import { RiVolumeUpLine, RiMic2Line, RiUserLine } from "react-icons/ri";
+import { RiVolumeUpLine, RiMic2Line, RiFileUploadLine } from "react-icons/ri";
+import { useTranslation } from "react-i18next";
 
 const SideNavItem = ({
   children,
@@ -34,25 +35,35 @@ const SideNavItem = ({
 };
 
 export const SideNav = () => {
+  const { t, i18n } = useTranslation();
+
+  const handleLanguageChange = async () =>
+    await i18n.changeLanguage(i18n.language.includes("en") ? "bn" : "en");
+
   return (
     <Flex direction="column" height="100%">
       <Heading size="2xl" p={3} pt={10} flexShrink={1} textAlign="center">
-        বচন
+        {t("title")}
       </Heading>
       <Flex direction="column" flexGrow={1} p={3}>
         <SideNavItem icon={RiMic2Line} to={AppRoutesUI.STT()}>
-          Speech To Text
+          {t("speechToText")}
         </SideNavItem>
         <SideNavItem icon={RiVolumeUpLine} to={AppRoutesUI.TTS()}>
-          Text To Speech
+          {t("textToSpeech")}
         </SideNavItem>
-        <SideNavItem icon={RiUserLine} to={AppRoutesUI.TTS()}>
-          Admin Panel
+        <SideNavItem icon={RiFileUploadLine} to={AppRoutesUI.upload()}>
+          {t("uploadModel")}
         </SideNavItem>
         <Flex fontSize="lg" mt={5} alignItems="center" justifyContent="center">
-          <Text>BN</Text>
-          <Switch size="lg" mx={2} />
-          <Text>EN</Text>
+          <Text>বাংলা</Text>
+          <Switch
+            isChecked={i18n.language.includes("en")}
+            onChange={handleLanguageChange}
+            size="lg"
+            mx={2}
+          />
+          <Text>English</Text>
         </Flex>
       </Flex>
       <Text

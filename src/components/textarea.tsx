@@ -1,11 +1,12 @@
 import { Flex, Icon, Select } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 import { IconType } from "react-icons";
+import { useTranslation } from "react-i18next";
 
 type TextAreaContainerProps = PropsWithChildren<{
   icon: IconType;
   title: string;
-  models: { name: string; value: string }[];
+  models?: { name: string; value: string }[];
 }>;
 
 export const TextAreaContainer = ({
@@ -14,6 +15,8 @@ export const TextAreaContainer = ({
   title,
   models,
 }: TextAreaContainerProps) => {
+  const { t } = useTranslation();
+
   return (
     <Flex
       direction="column"
@@ -35,18 +38,20 @@ export const TextAreaContainer = ({
           <Icon as={icon} me={3} fontSize="2xl" />
           <span>{title}</span>
         </Flex>
-        <Select
-          placeholder="Select Model"
-          width={["100%", "100%", "50%"]}
-          mt={[5, 5, 0]}
-          defaultValue="azure"
-        >
-          {models.map((model) => (
-            <option key={model.value} value={model.value}>
-              {model.name}
-            </option>
-          ))}
-        </Select>
+        {models && (
+          <Select
+            placeholder={t("selectModel")}
+            width={["100%", "100%", "50%"]}
+            mt={[5, 5, 0]}
+            defaultValue="azure"
+          >
+            {models.map((model) => (
+              <option key={model.value} value={model.value}>
+                {model.name}
+              </option>
+            ))}
+          </Select>
+        )}
       </Flex>
       {children}
     </Flex>

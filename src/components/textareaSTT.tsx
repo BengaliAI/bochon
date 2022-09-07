@@ -1,6 +1,7 @@
 import { Box, Icon, Text, Center } from "@chakra-ui/react";
 import { RiMic2Line, RiMicLine, RiUploadLine } from "react-icons/ri";
 import { TextAreaContainer } from "./textarea";
+import { Trans, useTranslation } from "react-i18next";
 
 type TextAreaSTTProps = {
   recognizedText: string;
@@ -15,14 +16,20 @@ export const TextAreaSTT = ({
   recognizingText,
   isRecording,
 }: TextAreaSTTProps) => {
+  const { t } = useTranslation();
+
   return (
-    <TextAreaContainer icon={RiMic2Line} title="Speech to Text" models={models}>
+    <TextAreaContainer
+      icon={RiMic2Line}
+      title={t("speechToText")}
+      models={models}
+    >
       <Box fontSize="lg" height="100%" flexGrow={1} px={10} py={5}>
         {!recognizedText &&
           !recognizingText &&
           (isRecording ? (
             <Text display="inline" color="gray.500">
-              Listening...
+              {t("listening")}
             </Text>
           ) : (
             <Center
@@ -35,12 +42,27 @@ export const TextAreaSTT = ({
               fontSize={["md", "lg", "xl"]}
               flexWrap="wrap"
             >
-              <Text display="flex" alignItems="center">
-                Click <Icon as={RiMicLine} mx={2} /> to start live transcribing
+              <Text
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                flexWrap="wrap"
+              >
+                <Trans t={t} i18nKey="recordHelp">
+                  Click <Icon as={RiMicLine} mx={2} /> to start live
+                  transcribing
+                </Trans>
               </Text>
 
-              <Text display="flex" alignItems="center">
-                Click <Icon as={RiUploadLine} mx={2} /> to upload audio file
+              <Text
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                flexWrap="wrap"
+              >
+                <Trans t={t} i18nKey="uploadHelp">
+                  Click <Icon as={RiUploadLine} mx={2} /> to upload audio file
+                </Trans>
               </Text>
             </Center>
           ))}
