@@ -7,11 +7,13 @@ export type SocketMessageType = {
 
 class ConnectionController {
   private socket: Socket | null = null;
+  private onRecognize: (message: string) => void = () => {};
 
   public connect = (uri: string) => {
     this.socket = io(uri);
     this.socket.on("message", (message) => {
       console.log(message);
+      this.onRecognize(message);
     });
   };
 
@@ -23,6 +25,10 @@ class ConnectionController {
   public sendData = (data?: Blob) => {
     const socketMessage: SocketMessageType = { data };
     this.socket?.emit("message", socketMessage);
+  };
+
+  public setRecognizedCallback = (onRecognize: (message: string) => void) => {
+    this.onRecognize = onRecognize;
   };
 }
 

@@ -2,9 +2,7 @@ import { Box, Center } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { TextAreaSTT } from "../components/textareaSTT";
 import { ToolBoxSTT } from "../components/toolboxSTT";
-import azureController, {
-  AzureCallbackType,
-} from "../controllers/azureController";
+import azureController from "../controllers/azureController";
 import generalController from "../controllers/generalController";
 
 export const STT = () => {
@@ -13,25 +11,16 @@ export const STT = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [fromFileLoading, setFromFileLoading] = useState(false);
 
-  const recognizedCB: AzureCallbackType = useCallback((s, e) => {
-    if (e.result.text) {
-      setRecognizingText("");
-      setRecognizedText((prev) => prev + " " + e.result.text);
-    }
-  }, []);
-
-  const recognizingCB: AzureCallbackType = useCallback((s, e) => {
-    if (e.result.text) setRecognizingText(e.result.text);
+  const onRecognize = useCallback((message: string) => {
+    setRecognizedText((prev) => prev + " " + message);
   }, []);
 
   const startRecording = async () => {
     setIsRecording(true);
-    // await azureController.start(recognizedCB, recognizingCB);
-    await generalController.start();
+    await generalController.start(onRecognize);
   };
 
   const stopRecording = () => {
-    // azureController.stop();
     generalController.stop();
     setRecognizingText("");
     setIsRecording(false);

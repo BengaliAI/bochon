@@ -8,7 +8,8 @@ class GeneralController {
   private maxSeconds = 3;
   private speechEvents: hark.Harker | null = null;
 
-  public start = async () => {
+  public start = async (onRecognize: (message: string) => void) => {
+    connectionController.setRecognizedCallback(onRecognize);
     this.audioStream = await navigator.mediaDevices.getUserMedia({
       audio: true,
     });
