@@ -1,4 +1,5 @@
 import { io, Socket } from "socket.io-client";
+import { SocketURL } from "../config/appRoute";
 
 export type SocketMessageType = {
   text?: string;
@@ -10,7 +11,9 @@ class ConnectionController {
   private onRecognize: (message: string) => void = () => {};
 
   public connect = (uri: string) => {
-    this.socket = io(uri);
+    this.socket = io(uri, {
+      path: "/audio/general/stt",
+    });
     this.socket.on("message", (message) => {
       console.log(message);
       this.onRecognize(message);
@@ -33,5 +36,5 @@ class ConnectionController {
 }
 
 const connectionController = new ConnectionController();
-connectionController.connect("http://localhost:8080");
+connectionController.connect(SocketURL);
 export default connectionController;
