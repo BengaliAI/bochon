@@ -7,3 +7,5 @@ services:
     build:
       context: .
       target: production
+    ports:
+      - "3001:80"
