@@ -2,7 +2,6 @@ import { Box, Center } from "@chakra-ui/react";
 import { useState } from "react";
 import { TextAreaTTS } from "../components/textAreaTTS";
 import { ToolBoxTTS } from "../components/toolboxTTS";
-import azureController from "../controllers/azureController";
 
 export const TTS = () => {
   const [text, setText] = useState("");
@@ -10,7 +9,8 @@ export const TTS = () => {
 
   const synthesize = () => {
     setIsLoading(true);
-    azureController.synthesize(text, () => setIsLoading(false));
+    // azureController.synthesize(text, () => setIsLoading(false));
+    setIsLoading(false);
   };
 
   return (
