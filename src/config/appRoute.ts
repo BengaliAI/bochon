@@ -1,4 +1,5 @@
 export const AppRoutesUI = {
+  BaseName: "/ui/main/bochon",
   Root: "/",
   STT: () => AppRoutesUI.Root + "stt/",
   TTS: () => AppRoutesUI.Root + "tts/",
