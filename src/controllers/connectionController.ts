@@ -12,7 +12,7 @@ class ConnectionController {
 
   public connect = (uri: string) => {
     this.socket = io(uri, {
-      path: "/audio/general/stt",
+      path: process.env?.REACT_APP_SOCKET_PATH || "",
     });
     this.socket.on("message", (message) => {
       console.log(message);
