@@ -9,7 +9,6 @@ export const TTS = () => {
 
   const synthesize = () => {
     setIsLoading(true);
-    // azureController.synthesize(text, () => setIsLoading(false));
     setIsLoading(false);
   };
 

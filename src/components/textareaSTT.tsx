@@ -2,14 +2,13 @@ import { Box, Icon, Text, Center } from "@chakra-ui/react";
 import { RiMic2Line, RiMicLine, RiUploadLine } from "react-icons/ri";
 import { TextAreaContainer } from "./textarea";
 import { Trans, useTranslation } from "react-i18next";
+import { STTModels } from "../config/models";
 
 type TextAreaSTTProps = {
   recognizedText: string;
   recognizingText: string;
   isRecording: boolean;
 };
-
-const models = [{ name: "Microsoft Azure", value: "azure" }];
 
 export const TextAreaSTT = ({
   recognizedText,
@@ -22,7 +21,7 @@ export const TextAreaSTT = ({
     <TextAreaContainer
       icon={RiMic2Line}
       title={t("speechToText")}
-      models={models}
+      models={STTModels}
     >
       <Box fontSize="lg" height="100%" flexGrow={1} px={10} py={5}>
         {!recognizedText &&

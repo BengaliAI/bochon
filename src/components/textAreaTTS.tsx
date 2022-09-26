@@ -3,13 +3,12 @@ import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { RiVolumeUpLine } from "react-icons/ri";
 import { TextAreaContainer } from "./textarea";
 import { useTranslation } from "react-i18next";
+import { TTSModels } from "../config/models";
 
 type TextAreaTTSProps = {
   text: string;
   setText: Dispatch<SetStateAction<string>>;
 };
-
-const models = [{ name: "Microsoft Azure", value: "azure" }];
 
 export const TextAreaTTS = ({ text, setText }: TextAreaTTSProps) => {
   const { t } = useTranslation();
@@ -18,7 +17,7 @@ export const TextAreaTTS = ({ text, setText }: TextAreaTTSProps) => {
     <TextAreaContainer
       icon={RiVolumeUpLine}
       title={t("textToSpeech")}
-      models={models}
+      models={TTSModels}
     >
       <Textarea
         fontSize="lg"

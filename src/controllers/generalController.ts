@@ -5,7 +5,6 @@ import connectionController from "./connectionController";
 class GeneralController {
   private audioStream: MediaStream | null = null;
   private recorder: RecordRTCPromisesHandler | null = null;
-  private maxSeconds = 3;
   private speechEvents: hark.Harker | null = null;
 
   public start = async (onRecognize: (message: string) => void) => {
@@ -31,7 +30,6 @@ class GeneralController {
       await this.recorder?.stopRecording();
       const blob = await this.recorder?.getBlob();
       console.log(blob);
-      connectionController.sendMessage("Data sent");
       connectionController.sendData(blob);
       await this.recorder?.reset();
     });
@@ -40,6 +38,14 @@ class GeneralController {
   public stop = () => {
     this.speechEvents?.stop();
     this.audioStream?.getAudioTracks()[0].stop();
+  };
+
+  public fromAudioFile = async (
+    file: File,
+    onRecognize: (message: string) => void
+  ) => {
+    connectionController.setRecognizedCallback(onRecognize);
+    connectionController.sendData(file);
   };
 }
 
