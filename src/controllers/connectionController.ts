@@ -1,5 +1,6 @@
 import { io, Socket } from "socket.io-client";
-import { SocketURL } from "../config/appRoute";
+import { STTModels } from "../config/models";
+import { LocalStorageHandler } from "../utils/localstorageHandler";
 
 export type SocketMessageType = {
   text?: string;
@@ -9,15 +10,30 @@ export type SocketMessageType = {
 class ConnectionController {
   private socket: Socket | null = null;
   private onRecognize: (message: string) => void = () => {};
+  private socketURL: string = "";
+  private socketPath: string = "";
 
-  public connect = (uri: string) => {
-    this.socket = io(uri, {
-      path: process.env?.REACT_APP_SOCKET_PATH || "",
+  public connect = (url: string, path: string) => {
+    console.log(url, path);
+    this.socketURL = url;
+    this.socketPath = path;
+    this.socket = io(this.socketURL, {
+      path: this.socketPath,
     });
     this.socket.on("message", (message) => {
       console.log(message);
       this.onRecognize(message);
     });
+    this.socket.on("connect", () => {
+      console.log("Connected to server");
+      console.log(this.socket?.id);
+    });
+  };
+
+  public disconnect = () => {
+    if (this.socket) {
+      this.socket.disconnect();
+    }
   };
 
   public sendMessage = (text?: string) => {
@@ -35,6 +51,11 @@ class ConnectionController {
   };
 }
 
+const modelIndex = LocalStorageHandler.getSTTModelIndex();
+
 const connectionController = new ConnectionController();
-connectionController.connect(SocketURL);
+connectionController.connect(
+  STTModels[modelIndex].url,
+  STTModels[modelIndex].path
+);
 export default connectionController;

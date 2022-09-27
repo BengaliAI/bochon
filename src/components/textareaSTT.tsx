@@ -3,6 +3,9 @@ import { RiMic2Line, RiMicLine, RiUploadLine } from "react-icons/ri";
 import { TextAreaContainer } from "./textarea";
 import { Trans, useTranslation } from "react-i18next";
 import { STTModels } from "../config/models";
+import { useCallback } from "react";
+import { LocalStorageHandler } from "../utils/localstorageHandler";
+import connectionController from "../controllers/connectionController";
 
 type TextAreaSTTProps = {
   recognizedText: string;
@@ -17,11 +20,21 @@ export const TextAreaSTT = ({
 }: TextAreaSTTProps) => {
   const { t } = useTranslation();
 
+  const onModelChange = useCallback((modelIndex: string) => {
+    LocalStorageHandler.setSTTModelIndex(modelIndex);
+    connectionController.disconnect();
+    connectionController.connect(
+      STTModels[parseInt(modelIndex)].url,
+      STTModels[parseInt(modelIndex)].path
+    );
+  }, []);
+
   return (
     <TextAreaContainer
       icon={RiMic2Line}
       title={t("speechToText")}
       models={STTModels}
+      onModelChange={onModelChange}
     >
       <Box fontSize="lg" height="100%" flexGrow={1} px={10} py={5}>
         {!recognizedText &&

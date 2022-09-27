@@ -8,6 +8,7 @@ type TextAreaContainerProps = PropsWithChildren<{
   icon: IconType;
   title: string;
   models?: typeof STTModels | typeof TTSModels;
+  onModelChange?: (modelIndex: string) => void;
 }>;
 
 export const TextAreaContainer = ({
@@ -15,6 +16,7 @@ export const TextAreaContainer = ({
   icon,
   title,
   models,
+  onModelChange,
 }: TextAreaContainerProps) => {
   const { t } = useTranslation();
 
@@ -45,6 +47,7 @@ export const TextAreaContainer = ({
             width={["100%", "100%", "50%"]}
             mt={[5, 5, 0]}
             defaultValue={0}
+            onChange={(e) => onModelChange?.(e.target.value)}
           >
             {models.map((model, index) => (
               <option key={index} value={index}>
