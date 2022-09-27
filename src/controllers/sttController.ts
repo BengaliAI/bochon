@@ -2,7 +2,7 @@ import hark from "hark";
 import { RecordRTCPromisesHandler } from "recordrtc";
 import connectionController from "./connectionController";
 
-class GeneralController {
+class STTController {
   private audioStream: MediaStream | null = null;
   private recorder: RecordRTCPromisesHandler | null = null;
   private speechEvents: hark.Harker | null = null;
@@ -40,14 +40,15 @@ class GeneralController {
     this.audioStream?.getAudioTracks()[0].stop();
   };
 
-  public fromAudioFile = async (
-    file: File,
-    onRecognize: (message: string) => void
-  ) => {
-    connectionController.setRecognizedCallback(onRecognize);
-    connectionController.sendData(file);
+  public fromAudioFile = (file: File) => {
+    return new Promise<string>((resolve) => {
+      connectionController.setRecognizedCallback((message) => {
+        resolve(message);
+      });
+      connectionController.sendData(file);
+    });
   };
 }
 
-const generalController = new GeneralController();
-export default generalController;
+const sttController = new STTController();
+export default sttController;

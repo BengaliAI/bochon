@@ -2,7 +2,7 @@ import { Box, Center } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { TextAreaSTT } from "../components/textareaSTT";
 import { ToolBoxSTT } from "../components/toolboxSTT";
-import generalController from "../controllers/generalController";
+import sttController from "../controllers/sttController";
 
 export const STT = () => {
   const [recognizedText, setRecognizedText] = useState("");
@@ -16,19 +16,21 @@ export const STT = () => {
 
   const startRecording = async () => {
     setIsRecording(true);
-    await generalController.start(onRecognize);
+    await sttController.start(onRecognize);
   };
 
   const stopRecording = () => {
-    generalController.stop();
+    sttController.stop();
     setRecognizingText("");
     setIsRecording(false);
   };
 
-  const fromAudioFile = useCallback((audioFile: File) => {
+  const fromAudioFile = useCallback(async (audioFile: File) => {
     if (!audioFile) return;
     setFromFileLoading(true);
-    // generalController.fromAudioFile(audioFile, onRecognize);
+    const message = await sttController.fromAudioFile(audioFile);
+    setRecognizedText(message);
+    setFromFileLoading(false);
   }, []);
 
   return (
