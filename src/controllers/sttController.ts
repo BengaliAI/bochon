@@ -19,10 +19,10 @@ class STTController {
     });
 
     this.speechEvents = hark(this.audioStream, {});
+    this.recorder?.startRecording();
 
     this.speechEvents.on("speaking", () => {
       console.log("Speaking");
-      this.recorder?.startRecording();
     });
 
     this.speechEvents.on("stopped_speaking", async () => {
