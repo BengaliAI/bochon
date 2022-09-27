@@ -18,7 +18,7 @@ type ToolBoxSTTProps = {
   startRecording: () => Promise<void>;
   stopRecording: () => void;
   clearText: () => void;
-  fromAudioFile: (audioFile: File) => void;
+  fromAudioFile: (audioFile: File) => Promise<void>;
   fromFileLoading: boolean;
 };
 
@@ -63,15 +63,17 @@ export const ToolBoxSTT = ({
   return (
     <>
       <ToolBoxContainer>
-        <ToolBoxItem
-          as={motion.div}
-          animation={isRecording ? animation : ""}
-          background={isRecording ? "red.300 !important" : "white"}
-          className="record-button"
-          title={isRecording ? t("stopRecording") : t("startRecording")}
-          onClick={handleRecordClick}
-          icon={isRecording ? RiMicOffLine : RiMicLine}
-        />
+        {!fromFileLoading && (
+          <ToolBoxItem
+            as={motion.div}
+            animation={isRecording ? animation : ""}
+            background={isRecording ? "red.300 !important" : "white"}
+            className="record-button"
+            title={isRecording ? t("stopRecording") : t("startRecording")}
+            onClick={handleRecordClick}
+            icon={isRecording ? RiMicOffLine : RiMicLine}
+          />
+        )}
         {!isRecording && (
           <ToolBoxItem
             title={t("uploadAudio")}
@@ -104,10 +106,10 @@ export const ToolBoxSTT = ({
         display="none"
         visibility="hidden"
         ref={fileInputRef}
-        accept="audio/wav"
+        accept="audio/*"
         multiple={false}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          e.target.files?.[0] && fromAudioFile(e.target.files[0]);
+        onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
+          e.target.files?.[0] && (await fromAudioFile(e.target.files[0]));
         }}
       />
     </>

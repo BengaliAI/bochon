@@ -2,11 +2,13 @@ import { Flex, Icon, Select } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 import { IconType } from "react-icons";
 import { useTranslation } from "react-i18next";
+import { STTModels, TTSModels } from "../config/models";
 
 type TextAreaContainerProps = PropsWithChildren<{
   icon: IconType;
   title: string;
-  models?: { name: string; value: string }[];
+  models?: typeof STTModels | typeof TTSModels;
+  onModelChange?: (modelIndex: string) => void;
 }>;
 
 export const TextAreaContainer = ({
@@ -14,6 +16,7 @@ export const TextAreaContainer = ({
   icon,
   title,
   models,
+  onModelChange,
 }: TextAreaContainerProps) => {
   const { t } = useTranslation();
 
@@ -43,10 +46,11 @@ export const TextAreaContainer = ({
             placeholder={t("selectModel")}
             width={["100%", "100%", "50%"]}
             mt={[5, 5, 0]}
-            defaultValue="azure"
+            defaultValue={0}
+            onChange={(e) => onModelChange?.(e.target.value)}
           >
-            {models.map((model) => (
-              <option key={model.value} value={model.value}>
+            {models.map((model, index) => (
+              <option key={index} value={index}>
                 {model.name}
               </option>
             ))}

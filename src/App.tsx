@@ -13,7 +13,7 @@ const ModelUploadPage = lazy(() => import("./pages/modelUpload"));
 function App() {
   const { t } = useTranslation();
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={AppRoutesUI.BaseName}>
       <AppLayout>
         <Suspense fallback={<div>{t("loading")}</div>}>
           <Routes>

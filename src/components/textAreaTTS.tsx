@@ -1,24 +1,29 @@
 import { Textarea } from "@chakra-ui/react";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useCallback } from "react";
 import { RiVolumeUpLine } from "react-icons/ri";
 import { TextAreaContainer } from "./textarea";
 import { useTranslation } from "react-i18next";
+import { TTSModels } from "../config/models";
+import { LocalStorageHandler } from "../utils/localstorageHandler";
 
 type TextAreaTTSProps = {
   text: string;
   setText: Dispatch<SetStateAction<string>>;
 };
 
-const models = [{ name: "Microsoft Azure", value: "azure" }];
-
 export const TextAreaTTS = ({ text, setText }: TextAreaTTSProps) => {
   const { t } = useTranslation();
+
+  const onModelChange = useCallback((modelIndex: string) => {
+    LocalStorageHandler.setTTSModelIndex(modelIndex);
+  }, []);
 
   return (
     <TextAreaContainer
       icon={RiVolumeUpLine}
       title={t("textToSpeech")}
-      models={models}
+      models={TTSModels}
+      onModelChange={onModelChange}
     >
       <Textarea
         fontSize="lg"

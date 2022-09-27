@@ -2,49 +2,36 @@ import { Box, Center } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { TextAreaSTT } from "../components/textareaSTT";
 import { ToolBoxSTT } from "../components/toolboxSTT";
-import azureController, {
-  AzureCallbackType,
-} from "../controllers/azureController";
+import sttController from "../controllers/sttController";
 
 export const STT = () => {
   const [recognizedText, setRecognizedText] = useState("");
   const [recognizingText, setRecognizingText] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [fromFileLoading, setFromFileLoading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
-  const recognizedCB: AzureCallbackType = useCallback((s, e) => {
-    if (e.result.text) {
-      setRecognizingText("");
-      setRecognizedText((prev) => prev + " " + e.result.text);
-    }
-  }, []);
-
-  const recognizingCB: AzureCallbackType = useCallback((s, e) => {
-    if (e.result.text) setRecognizingText(e.result.text);
+  const onRecognize = useCallback((message: string) => {
+    setRecognizedText((prev) => prev + " " + message);
   }, []);
 
   const startRecording = async () => {
     setIsRecording(true);
-    await azureController.start(recognizedCB, recognizingCB);
+    await sttController.start(onRecognize, setIsSpeaking);
   };
 
   const stopRecording = () => {
-    azureController.stop();
+    sttController.stop();
     setRecognizingText("");
     setIsRecording(false);
   };
 
-  const fromAudioFile = useCallback((audioFile: File) => {
+  const fromAudioFile = useCallback(async (audioFile: File) => {
     if (!audioFile) return;
     setFromFileLoading(true);
-    azureController.fromAudioFile(
-      audioFile,
-      (text) => {
-        setRecognizedText(text);
-        setFromFileLoading(false);
-      },
-      () => setFromFileLoading(false)
-    );
+    const message = await sttController.fromAudioFile(audioFile);
+    setRecognizedText(message);
+    setFromFileLoading(false);
   }, []);
 
   return (
@@ -54,6 +41,7 @@ export const STT = () => {
           recognizedText={recognizedText}
           recognizingText={recognizingText}
           isRecording={isRecording}
+          isSpeaking={isSpeaking}
         />
       </Box>
       <Box p={5}>

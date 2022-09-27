@@ -2,29 +2,43 @@ import { Box, Icon, Text, Center } from "@chakra-ui/react";
 import { RiMic2Line, RiMicLine, RiUploadLine } from "react-icons/ri";
 import { TextAreaContainer } from "./textarea";
 import { Trans, useTranslation } from "react-i18next";
+import { STTModels } from "../config/models";
+import { useCallback } from "react";
+import { LocalStorageHandler } from "../utils/localstorageHandler";
+import connectionController from "../controllers/connectionController";
 
 type TextAreaSTTProps = {
   recognizedText: string;
   recognizingText: string;
   isRecording: boolean;
+  isSpeaking: boolean;
 };
-
-const models = [{ name: "Microsoft Azure", value: "azure" }];
 
 export const TextAreaSTT = ({
   recognizedText,
   recognizingText,
   isRecording,
+  isSpeaking,
 }: TextAreaSTTProps) => {
   const { t } = useTranslation();
+
+  const onModelChange = useCallback((modelIndex: string) => {
+    LocalStorageHandler.setSTTModelIndex(modelIndex);
+    connectionController.disconnect();
+    connectionController.connect(
+      STTModels[parseInt(modelIndex)].url,
+      STTModels[parseInt(modelIndex)].path
+    );
+  }, []);
 
   return (
     <TextAreaContainer
       icon={RiMic2Line}
       title={t("speechToText")}
-      models={models}
+      models={STTModels}
+      onModelChange={onModelChange}
     >
-      <Box fontSize="lg" height="100%" flexGrow={1} px={10} py={5}>
+      <Box fontSize="lg" height="100%" flexGrow={1} px={5} py={3}>
         {!recognizedText &&
           !recognizingText &&
           (isRecording ? (
@@ -67,10 +81,19 @@ export const TextAreaSTT = ({
             </Center>
           ))}
 
-        {recognizedText && <Text display="inline">{recognizedText} </Text>}
+        {recognizedText && (
+          <Text fontSize="md" display="inline">
+            {recognizedText}{" "}
+          </Text>
+        )}
         {recognizingText && (
-          <Text display="inline" color="gray.500">
+          <Text display="inline" fontSize="md" color="gray.500">
             {recognizingText}
+          </Text>
+        )}
+        {isSpeaking && recognizedText && (
+          <Text display="inline" fontSize="md" color="gray.500">
+            {t("listening")}
           </Text>
         )}
       </Box>
