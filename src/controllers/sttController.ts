@@ -7,7 +7,10 @@ class STTController {
   private recorder: RecordRTCPromisesHandler | null = null;
   private speechEvents: hark.Harker | null = null;
 
-  public start = async (onRecognize: (message: string) => void) => {
+  public start = async (
+    onRecognize: (message: string) => void,
+    setIsSpeaking?: (isSpeaking: boolean) => void
+  ) => {
     connectionController.setRecognizedCallback(onRecognize);
     this.audioStream = await navigator.mediaDevices.getUserMedia({
       audio: true,
@@ -20,18 +23,22 @@ class STTController {
 
     this.speechEvents = hark(this.audioStream, {});
     this.recorder?.startRecording();
+    setIsSpeaking?.(false);
 
     this.speechEvents.on("speaking", () => {
+      setIsSpeaking?.(true);
       console.log("Speaking");
     });
 
     this.speechEvents.on("stopped_speaking", async () => {
+      setIsSpeaking?.(false);
       console.log("Stopped speaking");
       await this.recorder?.stopRecording();
       const blob = await this.recorder?.getBlob();
       console.log(blob);
       connectionController.sendData(blob);
       await this.recorder?.reset();
+      this.recorder?.startRecording();
     });
   };
 

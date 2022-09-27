@@ -9,6 +9,7 @@ export const STT = () => {
   const [recognizingText, setRecognizingText] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [fromFileLoading, setFromFileLoading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const onRecognize = useCallback((message: string) => {
     setRecognizedText((prev) => prev + " " + message);
@@ -16,7 +17,7 @@ export const STT = () => {
 
   const startRecording = async () => {
     setIsRecording(true);
-    await sttController.start(onRecognize);
+    await sttController.start(onRecognize, setIsSpeaking);
   };
 
   const stopRecording = () => {
@@ -40,6 +41,7 @@ export const STT = () => {
           recognizedText={recognizedText}
           recognizingText={recognizingText}
           isRecording={isRecording}
+          isSpeaking={isSpeaking}
         />
       </Box>
       <Box p={5}>

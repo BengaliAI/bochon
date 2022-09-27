@@ -11,12 +11,14 @@ type TextAreaSTTProps = {
   recognizedText: string;
   recognizingText: string;
   isRecording: boolean;
+  isSpeaking: boolean;
 };
 
 export const TextAreaSTT = ({
   recognizedText,
   recognizingText,
   isRecording,
+  isSpeaking,
 }: TextAreaSTTProps) => {
   const { t } = useTranslation();
 
@@ -36,7 +38,7 @@ export const TextAreaSTT = ({
       models={STTModels}
       onModelChange={onModelChange}
     >
-      <Box fontSize="lg" height="100%" flexGrow={1} px={10} py={5}>
+      <Box fontSize="lg" height="100%" flexGrow={1} px={5} py={3}>
         {!recognizedText &&
           !recognizingText &&
           (isRecording ? (
@@ -79,10 +81,19 @@ export const TextAreaSTT = ({
             </Center>
           ))}
 
-        {recognizedText && <Text display="inline">{recognizedText} </Text>}
+        {recognizedText && (
+          <Text fontSize="md" display="inline">
+            {recognizedText}{" "}
+          </Text>
+        )}
         {recognizingText && (
-          <Text display="inline" color="gray.500">
+          <Text display="inline" fontSize="md" color="gray.500">
             {recognizingText}
+          </Text>
+        )}
+        {isSpeaking && recognizedText && (
+          <Text display="inline" fontSize="md" color="gray.500">
+            {t("listening")}
           </Text>
         )}
       </Box>
