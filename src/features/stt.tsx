@@ -35,8 +35,36 @@ export const STT = () => {
   }, []);
 
   return (
-    <Center w="100%" flexDir="column" height="100%" mx="auto">
-      <Box flexGrow={1} p={[5, 8, 10, 10]} pb={[0, 0, 0, 0]} width="100%">
+    <Center
+      w="100%"
+      height="100vh"
+      // overflow="scroll"
+      flexDir="column"
+      mx="auto"
+    >
+      <Box
+        flexGrow={1}
+        p={[5, 8, 10, 10]}
+        pb={[0, 0, 0, 0]}
+        display="flex"
+        flexDir="column"
+        width="100%"
+        // height="100%"
+        justifyContent="space-between"
+        alignItems="stretch"
+      >
+        <TextAreaSTT
+          recognizedText={recognizedText}
+          recognizingText={recognizingText}
+          isRecording={isRecording}
+          isSpeaking={isSpeaking}
+        />
+        <TextAreaSTT
+          recognizedText={recognizedText}
+          recognizingText={recognizingText}
+          isRecording={isRecording}
+          isSpeaking={isSpeaking}
+        />
         <TextAreaSTT
           recognizedText={recognizedText}
           recognizingText={recognizingText}
