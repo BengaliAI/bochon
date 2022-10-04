@@ -5,13 +5,14 @@ import { Trans, useTranslation } from "react-i18next";
 import { STTModels } from "../config/models";
 import { useCallback } from "react";
 import { LocalStorageHandler } from "../utils/localstorageHandler";
-import connectionController from "../controllers/connectionController";
+import { ConnectionController } from "../controllers/connectionController";
 
 type TextAreaSTTProps = {
   recognizedText: string;
   recognizingText: string;
   isRecording: boolean;
   isSpeaking: boolean;
+  connectionController: ConnectionController;
 };
 
 export const TextAreaSTT = ({
@@ -19,17 +20,21 @@ export const TextAreaSTT = ({
   recognizingText,
   isRecording,
   isSpeaking,
+  connectionController,
 }: TextAreaSTTProps) => {
   const { t } = useTranslation();
 
-  const onModelChange = useCallback((modelIndex: string) => {
-    LocalStorageHandler.setSTTModelIndex(modelIndex);
-    connectionController.disconnect();
-    connectionController.connect(
-      STTModels[parseInt(modelIndex)].url,
-      STTModels[parseInt(modelIndex)].path
-    );
-  }, []);
+  const onModelChange = useCallback(
+    (modelIndex: string) => {
+      LocalStorageHandler.setSTTModelIndex(modelIndex);
+      connectionController.disconnect();
+      connectionController.connect(
+        STTModels[parseInt(modelIndex)].url,
+        STTModels[parseInt(modelIndex)].path
+      );
+    },
+    [connectionController]
+  );
 
   return (
     <TextAreaContainer

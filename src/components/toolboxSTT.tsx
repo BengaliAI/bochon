@@ -7,10 +7,15 @@ import {
   RiMicOffLine,
   RiMicLine,
   RiQuestionMark,
+  RiAddLine,
+  RiSubtractLine,
 } from "react-icons/ri";
 import { ToolBoxContainer, ToolBoxItem } from "./toolbox";
-import { useRef } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { ConnectionController } from "../controllers/connectionController";
+import { STTModels } from "../config/models";
+import { LocalStorageHandler } from "../utils/localstorageHandler";
 
 type ToolBoxSTTProps = {
   isRecording: boolean;
@@ -20,6 +25,8 @@ type ToolBoxSTTProps = {
   clearText: () => void;
   fromAudioFile: (audioFile: File) => Promise<void>;
   fromFileLoading: boolean;
+  controllers: ConnectionController[];
+  setControllers: Dispatch<SetStateAction<ConnectionController[]>>;
 };
 
 const animationKeyFrame = keyframes`
@@ -38,6 +45,8 @@ export const ToolBoxSTT = ({
   clearText,
   fromAudioFile,
   fromFileLoading,
+  controllers,
+  setControllers,
 }: ToolBoxSTTProps) => {
   const toast = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -57,6 +66,29 @@ export const ToolBoxSTT = ({
       position: "bottom-right",
       variant: "subtle",
       status: "success",
+    });
+  };
+
+  const addModel = () => {
+    if (controllers.length >= 3) return;
+    const newController = new ConnectionController();
+    const modelIndex = LocalStorageHandler.getSTTModelIndex();
+    newController.connect(
+      STTModels[modelIndex].url,
+      STTModels[modelIndex].path
+    );
+    setControllers((prevControllers: ConnectionController[]) => [
+      ...prevControllers,
+      newController,
+    ]);
+  };
+
+  const removeModel = () => {
+    if (controllers.length <= 1) return;
+    setControllers((prevControllers: ConnectionController[]) => {
+      const newControllers = [...prevControllers];
+      newControllers.pop();
+      return newControllers;
     });
   };
 
@@ -92,6 +124,24 @@ export const ToolBoxSTT = ({
           />
         )}
         <ToolBoxItem title={t("help")} icon={RiQuestionMark} />
+        {!isRecording && (
+          <>
+            {controllers.length < 3 && (
+              <ToolBoxItem
+                title={t("addModel")}
+                icon={RiAddLine}
+                onClick={addModel}
+              />
+            )}
+            {controllers.length > 1 && (
+              <ToolBoxItem
+                title={t("removeModel")}
+                icon={RiSubtractLine}
+                onClick={removeModel}
+              />
+            )}
+          </>
+        )}
         {text && (
           <ToolBoxItem
             onClick={clearText}

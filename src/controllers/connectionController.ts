@@ -52,10 +52,10 @@ class ConnectionController {
 }
 
 const modelIndex = LocalStorageHandler.getSTTModelIndex();
-
 const connectionController = new ConnectionController();
 connectionController.connect(
   STTModels[modelIndex].url,
   STTModels[modelIndex].path
 );
-export default connectionController;
+
+export { connectionController, ConnectionController };
