@@ -1,17 +1,20 @@
 import hark from "hark";
 import { RecordRTCPromisesHandler } from "recordrtc";
-import connectionController from "./connectionController";
+import { ConnectionController } from "./connectionController";
 
 class STTController {
   private audioStream: MediaStream | null = null;
   private recorder: RecordRTCPromisesHandler | null = null;
   private speechEvents: hark.Harker | null = null;
+  private controllers: ConnectionController[] = [];
 
   public start = async (
     onRecognize: (message: string) => void,
     setIsSpeaking?: (isSpeaking: boolean) => void
   ) => {
-    connectionController.setRecognizedCallback(onRecognize);
+    this.controllers.forEach((controller) => {
+      controller.setRecognizedCallback(onRecognize);
+    });
     this.audioStream = await navigator.mediaDevices.getUserMedia({
       audio: true,
     });
@@ -36,7 +39,7 @@ class STTController {
       await this.recorder?.stopRecording();
       const blob = await this.recorder?.getBlob();
       console.log(blob);
-      connectionController.sendData(blob);
+      this.controllers.forEach((controller) => controller.sendData(blob));
       await this.recorder?.reset();
       this.recorder?.startRecording();
     });
@@ -48,12 +51,14 @@ class STTController {
   };
 
   public fromAudioFile = (file: File) => {
-    return new Promise<string>((resolve) => {
-      connectionController.setRecognizedCallback((message) => {
-        resolve(message);
+    const promises = this.controllers.map((controller) => {
+      return new Promise<string>((resolve) => {
+        controller.setRecognizedCallback(resolve);
+        controller.sendData(file);
       });
-      connectionController.sendData(file);
     });
+
+    return promises;
   };
 }
 

@@ -16,7 +16,8 @@ export const AppLayout = ({ children }: PropsWithChildren) => {
     <Flex
       direction={["column", "column", "row"]}
       bgGradient={[gradients[0], gradients[0], gradients[1], gradients[1]]}
-      height="100vh"
+      maxHeight="100vh"
+      overflow="hidden"
       className={i18n.language === "bn" ? "bn-font" : "en-font"}
     >
       <Box
@@ -42,7 +43,7 @@ export const AppLayout = ({ children }: PropsWithChildren) => {
       >
         <SideNav />
       </Box>
-      <Box width="100%" height="100%">
+      <Box width="100%" maxHeight="100vh" overflow="scroll">
         {children}
       </Box>
     </Flex>

@@ -16,6 +16,8 @@
     "uploadAudio": "Upload Audio",
     "synthesize": "Synthesize",
     "help": "Help",
+    "addModel": "Add Model",
+    "removeModel": "Remove Model",
     "recordHelp": "Click <1/> to start live transcribing",
     "uploadHelp": "Click <1/> to upload audio file",
     "uploadText": "Drag your model definition JSON file here or click here to select file"

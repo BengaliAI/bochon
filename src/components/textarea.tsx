@@ -27,9 +27,10 @@ export const TextAreaContainer = ({
       borderRadius="xl"
       shadow="xl"
       height="100%"
+      mb={3}
     >
       <Flex
-        py={3}
+        py={2}
         px={5}
         justifyContent="space-between"
         direction={["column", "column", "row"]}
@@ -37,8 +38,8 @@ export const TextAreaContainer = ({
         borderBottom="1px solid #ddd"
         flexShrink={1}
       >
-        <Flex fontSize="xl" alignItems="center">
-          <Icon as={icon} me={3} fontSize="2xl" />
+        <Flex fontSize="lg" alignItems="center">
+          <Icon as={icon} me={3} fontSize="xl" />
           <span>{title}</span>
         </Flex>
         {models && (
@@ -47,6 +48,7 @@ export const TextAreaContainer = ({
             width={["100%", "100%", "50%"]}
             mt={[5, 5, 0]}
             defaultValue={0}
+            size="sm"
             onChange={(e) => onModelChange?.(e.target.value)}
           >
             {models.map((model, index) => (
